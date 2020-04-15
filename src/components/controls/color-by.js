@@ -78,8 +78,9 @@ class ColorBy extends React.Component {
   }
 
   // Our internal state is published back to the outside world when it changes.
-  componentDidUpdate() {
+  componentDidUpdate() {    
     const colorBySelected = this.state.colorBySelected;
+    console.log('ColorBy.componentDidUpdate()'+colorBySelected);
 
     if (colorBySelected === "gt") {
       const { geneSelected, positionSelected } = this.state;
@@ -99,6 +100,14 @@ class ColorBy extends React.Component {
     } else {
       this.dispatchColorBy(colorBySelected);
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState){
+    if (this.state.colorBySelected === nextState.colorBySelected)
+    {
+      return false;
+    }
+    return true;
   }
 
   dispatchColorBy(colorBy, name = colorBy) {
