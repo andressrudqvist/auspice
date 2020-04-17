@@ -7,6 +7,7 @@ import * as types from "./types";
 
 /* providedColorBy: undefined | string */
 export const changeColorBy = (providedColorBy = undefined) => { // eslint-disable-line import/prefer-default-export
+  console.log('changeColorBy ');
   return (dispatch, getState) => {
     timerStart("changeColorBy calculations");
     const { controls, tree, treeToo, metadata, frequencies } = getState();

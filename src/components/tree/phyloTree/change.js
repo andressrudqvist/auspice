@@ -94,7 +94,7 @@ const createUpdateCall = (treeElem, properties) => (selection) => {
   if (svgSetters.styles[treeElem]) {
     [...properties].filter((x) => svgSetters.styles[treeElem][x])
       .forEach((styleName) => {
-        // console.log(`applying style ${styleName} to ${treeElem}`)
+        //console.log(`applying style ${styleName} to ${treeElem}`)
         selection.style(styleName, svgSetters.styles[treeElem][styleName]);
       });
   }
@@ -113,7 +113,7 @@ const genericSelectAndModify = (svg, treeElem, updateCall, transitionTime) => {
   }
 };
 
-/* use D3 to select and modify elements, such that a given element is only ever modified _once_
+/**  use D3 to select and modify elements, such that a given element is only ever modified _once_
  * @elemsToUpdate {set} - the class names to select, e.g. ".tip" or ".branch"
  * @svgPropsToUpdate {set} - the props (styles & attrs) to update. The respective functions are defined above
  * @transitionTime {INT} - in ms. if 0 then no transition (timerFlush is used)
@@ -276,7 +276,37 @@ export const change = function change({
   tipRadii = undefined,
   branchThickness = undefined
 }) {
-  // console.log("\n** phylotree.change() (time since last run:", Date.now() - this.timeLastRenderRequested, "ms) **\n\n");
+  console.log("\n** phylotree.change() (time since last run:", Date.now() - this.timeLastRenderRequested, "ms) **\n\n");
+  /// Delete
+  const lchange = [];
+  const f = (p,pn) => {
+    if (p) { 
+      lchange.push(pn);
+    }
+  };
+  f(changeColorBy,'changeColorBy');
+  f(changeVisibility,'changeVisibility');
+  f(changeTipRadii,'changeTipRadii');
+  f(changeBranchThickness,'changeBranchThickness');
+  f(showConfidences,'showConfidences');
+  f(removeConfidences,'removeConfidences');
+  f(zoomIntoClade,'zoomIntoClade');
+  f(svgHasChangedDimensions,'svgHasChangedDimensions');
+  f(animationInProgress,'animationInProgress');
+  f(newDistance,'newDistance');
+  f(newLayout,'newLayout');
+  f(updateLayout,'updateLayout');
+  f(newBranchLabellingKey,'newBranchLabellingKey');
+  f(branchStroke,'branchStroke');
+  f(tipStroke,'tipStroke');
+  f(fill,'fill');
+  f(visibility,'visibility');
+  f(tipRadii,'tipRadii');
+  f(branchThickness,'branchThickness');
+  console.log('Atributtes: '+lchange.join(' - '));
+  //console.log(new Error().stack);
+/// End - Delete
+
   timerStart("phylotree.change()");
   const elemsToUpdate = new Set(); /* what needs updating? E.g. ".branch", ".tip" etc */
   const nodePropsToModify = {}; /* which properties (keys) on the nodes should be updated (before the SVG) */

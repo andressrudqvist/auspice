@@ -61,9 +61,19 @@ class Tree extends React.Component {
       this.setState(newState); /* this will trigger an unneccessary CDU :( */
     }
   }
+
+
+
   componentDidUpdate(prevProps) {
     let newState = {};
     let rightTreeUpdated = false;
+
+    /*
+    Borrar - pre sumbmit PR
+    console.log('tree.componentDidUpdate() -prevProps');
+    console.log(prevProps);
+    printDifferences(prevProps,this.props);
+    */
 
     /* potentially change the (main / left hand) tree */
     const [potentialNewState, leftTreeUpdated] = changePhyloTreeViaPropsComparison(true, this.state.tree, prevProps, this.props);
@@ -183,3 +193,49 @@ class Tree extends React.Component {
 
 const WithTranslation = withTranslation()(Tree);
 export default WithTranslation;
+
+
+
+// Borrar
+function printDifferences(a,b,pre="props",level=0)
+{
+  const cl = (p) => console.log('D|'+pre + '.'+p);
+  if (level === 0)
+  {
+    cl('-'.repeat(10));
+  } else if (level > 5){
+    return;
+  }
+  for (let ka in a)
+  {
+    let ta = typeof(a[ka]);
+    let tb = typeof(b[ka]);
+
+    if (ta === "function" || (ta==="undefined" && tb==="undefined" )){
+      //do nothing
+    }
+    else if (b[ka] === undefined)
+    {
+      cl(`${ka}: ${a[ka]} => undefined`);
+    } else if ( ta !== tb ){
+      cl(`${ka}: ${ta} <= ${tb}`);
+    } 
+    else if ( ta !== "undefined" && ta !== "object" && a[ka] !== b[ka]){
+      cl(`${ka}: ${a[ka]} !== ${b[ka]}`);
+    } else if (ta === "object" && tb==="object"){
+      printDifferences(a[ka],b[ka],`${pre}.${ka}`,level+1);
+    }
+  }
+
+  for (let kb in b)
+  {
+    if (a[kb] === undefined && b[kb] !== undefined)
+    {
+      cl(`${kb}: ${b[kb]} <=  undefined`);
+    }
+  }
+
+
+
+}
+// END Borrar

@@ -57,7 +57,7 @@ const Tree = (state = getDefaultTreeState(), action) => {
         tipRadii: action.data,
         tipRadiiVersion: action.version
       });
-    case types.NEW_COLORS:
+    case types.NEW_COLORS:      
       return Object.assign({}, state, {
         nodeColors: action.nodeColors,
         nodeColorsVersion: action.version
